@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : buy_prescription_processing
     Created on : 11 18, 23, 2:12:42 PM
@@ -6,7 +7,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*, pharmacysystem.*" %>
-<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

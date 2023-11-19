@@ -57,7 +57,7 @@
 <%
     } else {
 %>       
-        <a href="order_stock.jsp">Order from Supplier</a><br>
+        <a href="order_stock_search.html">Order from Supplier</a><br>
         <a href="update_order_status.jsp">Update Order Status</a><br>
         <a href="order_list.jsp">Order List</a><br>
         <a href="employee_list.jsp">Employee List</a><br>
