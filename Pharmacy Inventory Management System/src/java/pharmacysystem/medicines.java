@@ -37,7 +37,6 @@ public class medicines {
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, id_no);
             ResultSet rst = pstmt.executeQuery();
-            clear_array();
             while (rst.next()) {
                 medicineID = rst.getInt("medicineID");
                 generic_name = rst.getString("generic_name");
@@ -76,8 +75,7 @@ public class medicines {
             ResultSet rst = pstmt.executeQuery();
             clear_array();
             while (rst.next()) {
-                medicineID = rst.getInt("id");
-                medicineIDList.add(medicineID);
+                medicineIDList.add(rst.getInt("id"));
             }
             pstmt.close();
             conn.close();
@@ -96,8 +94,7 @@ public class medicines {
             ResultSet rst = pstmt.executeQuery();
             clear_array();
             while (rst.next()) {
-                medicineID = rst.getInt("id");
-                medicineIDList.add(medicineID);
+                medicineIDList.add(rst.getInt("id"));
             }
             pstmt.close();
             conn.close();
@@ -115,8 +112,7 @@ public class medicines {
             ResultSet rst = pstmt.executeQuery();
             clear_array();
             while (rst.next()) {
-                category = rst.getString("category");
-                categoryList.add(category);
+                categoryList.add(rst.getString("category"));
             }
             pstmt.close();
             conn.close();
