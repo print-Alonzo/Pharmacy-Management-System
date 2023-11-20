@@ -221,7 +221,18 @@ INSERT INTO medicine_info
 			(0016, "Omeprazole", "Prilosec", 20, NULL, TRUE, "Antacids", 25, "Prescription-strength acid reducer", 1),
 			(0017, "Sertraline", "Zoloft", NULL, 50, TRUE, "Psychotropic Medications", 30, "Antidepressant", 4),
 			(0018, "Rosuvastatin", "Crestor", NULL, 10, TRUE, "Hormones", 40, "For managing cholesterol levels", 2);
-            
+
+CALL InsertMedicineStock(3, 1, '2023-11-20', '2024-01-15', 5.5);
+CALL InsertMedicineStock(2, 2, '2023-11-20', '2023-12-10', 3.0);
+CALL InsertMedicineStock(4, 3, '2023-11-20', '2024-03-01', 100.0);
+CALL InsertMedicineStock(5, 4, '2023-11-20', '2024-02-28', 5.0);
+CALL InsertMedicineStock(3, 5, '2023-11-20', '2024-06-15', 7.0);
+CALL InsertMedicineStock(2, 6, '2023-11-20', '2023-12-31', 6.5);
+CALL InsertMedicineStock(4, 7, '2023-11-20', '2024-05-20', 15.0);
+CALL InsertMedicineStock(3, 8, '2023-11-20', '2024-04-10', 4.0);
+CALL InsertMedicineStock(2, 9, '2023-11-20', '2024-02-01', 3.5);
+CALL InsertMedicineStock(5, 10, '2023-11-20', '2024-07-01', 8.0);            
+
 INSERT INTO symptom
 	VALUES 	(0001, "Heartburn", "Burning sensation in the chest"),
 			(0002, "Fever", "Elevated body temperature"),
@@ -301,3 +312,8 @@ FROM symptom_and_medicine sm JOIN medicine_info m
                         JOIN symptom s
                         ON sm.symptom_id = s.symptom_id;
 
+FROM symptom s JOIN symptom_and_medicine sm
+				ON s.symptom_ID = sm.symptom_ID
+                JOIN medicine_info m
+                ON sm.medicine_ID = m.medicine_ID
+WHERE s.symptom_name = "Heartburn";
