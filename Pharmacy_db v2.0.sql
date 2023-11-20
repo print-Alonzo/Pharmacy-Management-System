@@ -174,7 +174,6 @@ CREATE PROCEDURE InsertMedicineStock(
 BEGIN
     DECLARE counter INT DEFAULT 1;
     DECLARE lastStockID INT DEFAULT 0;
-	SELECT counter;
     -- Find the last stock_id
 		SET lastStockID = (SELECT coalesce(MAX(stock_id), 0) FROM medicine_stock);
     -- Set counter to the next stock_id
