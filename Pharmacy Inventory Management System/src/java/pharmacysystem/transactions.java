@@ -3,10 +3,11 @@ package pharmacysystem;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class transactions {
     public int transactionID;
-    public float priceBought;
+    public double priceBought;
     public int cashierID;
     public int pharmacistID;
     public String transactionDate;
@@ -14,6 +15,15 @@ public class transactions {
     public int addTransaction(int quantity, int medID){
         try{
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmacy_db?allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC&user=root&password=12345&useSSL=false");
+
+            //get priceBought from medID.
+            String query = "SELECT sellingPrice FROM medicine_info WHERE medicine_id = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, medID);
+            ResultSet rst = ps.executeQuery();
+            while(rst.next())
+                priceBought = rst.getDouble("sellingPrice");
+
             //create a transaction record.
             String statement1 = "INSERT INTO transactions(priceBought, cashier, pharmacist, transactionDate)" + 
                             "VALUES(?, ?, ?, ?)";
