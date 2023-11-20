@@ -316,6 +316,32 @@ INSERT INTO employees
            (7, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
            (8, "Delivery Driver", "Ava", "Torres", "639183334444", "IloveMyCar", "303 Cedar St, Manila");
 
+INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_name)
+    VALUES  (1, 1, '2023-10-30', 45000, 'Pharmacist'),   
+            (2, 2, '2023-10-30', 45000, 'Pharmacist'),     
+            (3, 3, '2023-10-30', 30000, 'Cashier'),       
+            (4, 4, '2023-10-30', 30000, 'Cashier'),        
+            (5, 5, '2023-10-30', 30000, 'Inventory Clerk'),
+            (6, 6, '2023-10-30', 22000, 'Security Guard'),
+            (7, 7, '2023-10-30', 19000, 'Janitor'),      
+            (8, 8, '2023-10-30', 20000, 'Delivery Driver');
+
+INSERT INTO orders (supplierID, date_ordered, medicineID, quantity, expiryDate, priceSold, order_status)
+    VALUES  (00001, '2023-11-02', 0002, 30, '2024-12-15', 3.0, 'ordered'),
+            (00002, '2023-11-04', 0004, 14, '2024-11-20', 7.0, 'ordered'),
+            (00003, '2023-11-06', 0006, 10, '2024-10-25', 8.0, 'ordered'),
+            (00004, '2023-11-08', 0008, 18, '2024-09-30', 5.0, 'ordered'),
+            (00001, '2023-11-10', 0010, 6, '2024-08-05', 12.0, 'ordered'),
+            (00002, '2023-11-12', 0012, 22, '2024-07-10', 7.0, 'ordered'),
+            (00003, '2023-11-14', 0014, 3, '2024-06-15', 120.0, 'ordered'),
+            (00004, '2023-11-16', 0016, 7, '2024-05-20', 25.0, 'ordered'),
+            (00001, '2023-11-18', 0001, 15, '2024-04-25', 30.0, 'ordered'),
+            (00002, '2023-11-20', 0003, 5, '2024-03-30', 140.0, 'ordered'),
+            (00003, '2023-11-22', 0005, 11, '2024-02-05', 9.0, 'ordered'),
+            (00004, '2023-11-24', 0007, 3, '2024-01-10', 210.0, 'ordered'),
+            (00001, '2023-11-26', 0009, 17, '2023-12-15', 5.0, 'ordered'),
+            (00002, '2023-11-28', 0011, 25, '2023-11-20', 8.0, 'ordered'),
+            (00003, '2023-11-30', 0013, 9, '2023-10-25', 15.0, 'ordered');
 
 
 SELECT *
@@ -383,6 +409,6 @@ SELECT
 FROM
     orders
 GROUP BY
-    sales_year, sales_month
+    cost_year, cost_month
 ORDER BY
-    sales_year, sales_month;
+    cost_year, cost_month;
