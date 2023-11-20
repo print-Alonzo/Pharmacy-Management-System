@@ -321,4 +321,37 @@ FROM symptom s JOIN symptom_and_medicine sm
                 ON sm.medicine_ID = m.medicine_ID
 WHERE s.symptom_name = "Heartburn";
 
--- Record Number 2 - Monthly and Yearly Sales and Expenses Report
+-- Record Number 2 - Monthly Sales
+SELECT
+    YEAR(transactionDate) AS sales_year,
+    MONTH(transactionDate) AS sales_month,
+    SUM(priceBought) AS total_sales
+FROM
+    transactions
+GROUP BY
+    sales_year, sales_month
+ORDER BY
+    sales_year, sales_month;
+
+-- Get Yearly Sales
+SELECT
+    YEAR(transactionDate) AS sales_year,
+    SUM(priceBought) AS total_sales
+FROM
+    transactions
+GROUP BY
+    sales_year
+ORDER BY
+    sales_year;
+
+-- Get drug cost report
+SELECT
+    YEAR(date_ordered) AS cost_year,
+    MONTH(date_ordered) AS cost_month,
+    SUM(priceSold*quantity) AS total_costs
+FROM
+    orders
+GROUP BY
+    sales_year, sales_month
+ORDER BY
+    sales_year, sales_month;
