@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Search Medicine By Category</title>
+    <title>View Medicine By Category</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -64,15 +64,15 @@
 <body>
 
 <!-- Search Medicine By Category Form -->
-<h1>Search Medicine By Category</h1>
-<jsp:useBean id="A" class="pharmacysystem.medicines" scope="session" />
-<% A.get_category(); %>
+<h1>Order Medicine (View By Category)</h1>
+<jsp:useBean id="C" class="pharmacysystem.suppliers" scope="session" />
+<% C.get_supplier_names(); %>
 
-<form action="buy_otc_by_category_select.jsp">
-    <label for="category">Category:</label>
-    <select id="category" name="category" value="Select Category">
-        <% for (int i = 0; i < A.categoryList.size(); i++) { %>
-            <option><%= A.categoryList.get(i) %></option>
+<form action="order_stock_supplier_select.jsp">
+    <label for="supplier">Supplier:</label>
+    <select id="supplier" name="supplier">
+        <% for (int i = 0; i < C.nameList.size(); i++) { %>
+            <option><%= C.nameList.get(i) %></option>
         <% } %>
     </select><br>
 
