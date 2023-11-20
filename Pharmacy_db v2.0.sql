@@ -158,6 +158,24 @@ CREATE TABLE IF NOT EXISTS symptom_and_medicine (
 		REFERENCES medicine_info(medicine_id)
 );
 
+-- ----------------------------------------------
+-- Table payout
+-- ----------------------------------------------
+DROP TABLE IF EXISTS payout;
+CREATE TABLE IF NOT EXISTS payout (
+    payout_id       INT(5) NOT NULL,
+    employee_id     INT(5) NOT NULL,
+    date_given      DATE NOT NULL,
+    payout_amount   FLOAT NOT NULL,
+    position_name   VARCHAR(30),
+
+    PRIMARY KEY(payout_id),
+    FOREIGN KEY(employee_id)
+        REFERENCES employees(employee_id),
+    FOREIGN KEY(position_name)
+        REFERENCES  positions(position_name)
+
+);
 
 -- ----------------------------------------------
 -- Procedure InsertMedicineStock
@@ -314,7 +332,8 @@ FROM symptom_and_medicine sm JOIN medicine_info m
                         ON sm.symptom_id = s.symptom_id;
 
 
--- Record Number 1 - Medicine Recommendations By Symptoms
+-- REPORT 1
+SELECT s.symptom_name, s.symptom_description, m.generic_name, m.brand_name, sm.relation_description
 FROM symptom s JOIN symptom_and_medicine sm
 				ON s.symptom_ID = sm.symptom_ID
                 JOIN medicine_info m
