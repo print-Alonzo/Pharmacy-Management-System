@@ -417,42 +417,16 @@ ORDER BY
 
 -- Report 3 : Monthly stock Report By Medicine.
 -- NOTE!!! REPLACE 11 AND 23 in the java file
-SELECT i.brand_name, r.amount_received, o.stock_out, e.expired, (a.all_stock - stock_out - expired) AS 'Remaining'
-FROM medicine_info i
-LEFT JOIN
-(
-	SELECT i.medicine_id, COUNT(s.stock_id) AS 'amount_received'
-	FROM medicine_info i LEFT JOIN medicine_stock s
-						ON (s.medicine_id = i.medicine_id
-						AND MONTH(s.dateReceived) = 11 AND YEAR(s.dateReceived) = 2023)
-	GROUP BY i.medicine_id
-) AS r ON i.medicine_id = r.medicine_id
-LEFT JOIN
-(
-	SELECT i.medicine_id, COALESCE(COUNT(t.transactionDate), 0) AS 'stock_out'
-	FROM medicine_info i LEFT JOIN medicine_stock s
-			ON s.medicine_id = i.medicine_id
-			LEFT JOIN transactions t
-			ON (s.transactionID = t.transactionID
-				AND MONTH(t.transactionDate) = 11 AND YEAR(t.transactionDate) = 2023)
-	GROUP BY i.medicine_id
-) AS o ON i.medicine_id = o.medicine_id
-LEFT JOIN
-(
-	SELECT i.medicine_id, COALESCE(COUNT(s.stock_id), 0) AS 'expired'
-	FROM medicine_info i LEFT JOIN medicine_stock s
-			ON (s.medicine_id = i.medicine_id
-				AND s.dateExpire <= NOW())
-	GROUP BY i.medicine_id
-) AS e ON i.medicine_id = e.medicine_id
-LEFT JOIN
-(
-	SELECT i.medicine_id, COUNT(s.stock_id) AS 'all_stock'
-	FROM medicine_info i LEFT JOIN medicine_stock s
-		ON s.medicine_id = i.medicine_id
-	GROUP BY i.medicine_id
-) AS a ON i.medicine_id = a.medicine_id;
+SELECT i.medicine_id, YEAR(s.dateReceived) AS 'year_report', MONTH(s.dateReceived) AS 'month_report', COUNT(s.stock_id) AS 'Amount Received', COUNT(t.transactionDate) AS 'Amount Sold'
+FROM medicine_info i LEFT JOIN medicine_stock s
+					ON i.medicine_id = s.medicine_id
+                    LEFT JOIN transactions t
+                    ON s.transactionID = t.transactionID
+GROUP BY i.medicine_id, year_report, month_report
+ORDER BY year_report, month_report;
 
-
-
-
+-- expiring report
+SELECT s.medicine_id, YEAR(s.dateExpire) AS 'year_report', MONTH(s.dateExpire) AS 'month_report', COUNT(s.stock_id) AS 'Amount Expiring'
+FROM medicine_stock s
+WHERE s.transactionID IS NULL
+GROUP BY s.medicine_id, year_report, month_report;
