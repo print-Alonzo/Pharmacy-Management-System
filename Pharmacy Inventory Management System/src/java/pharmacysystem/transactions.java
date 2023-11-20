@@ -20,7 +20,10 @@ public class transactions {
             PreparedStatement ps1 = conn.prepareStatement(statement1);
             ps1.setDouble(1, priceBought);
             ps1.setInt(2, cashierID);
-            ps1.setInt(3, pharmacistID);
+            if(pharmacistID == -1)
+                ps1.setInt(3, pharmacistID);
+            else   
+                ps1.setObject(3, null);
             ps1.setString(4, transactionDate);
             ps1.executeUpdate();
             ps1.close();
