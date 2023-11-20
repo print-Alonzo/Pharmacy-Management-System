@@ -363,6 +363,18 @@ GROUP BY
 ORDER BY
     sales_year;
 
+-- Get salary report
+SELECT
+    YEAR(date) AS salary_year,
+    MONTH(date) AS salary_month,
+    SUM(payout_amount) AS total_salary
+FROM
+    payout
+GROUP BY
+    sales_year, sales_month
+ORDER BY
+    sales_year, sales_month;
+
 -- Get drug cost report
 SELECT
     YEAR(date_ordered) AS cost_year,
