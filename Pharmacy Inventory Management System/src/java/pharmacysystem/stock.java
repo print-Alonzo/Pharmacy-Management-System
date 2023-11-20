@@ -43,7 +43,7 @@ public class stock {
     public static void main(String[] args){
         stock s = new stock();
         s.quantity = 50;
-        s.medicineID = 5;
+        s.medicineID = 6;
         s.dateReceived = "2023-10-10";
         s.dateExpire = "2027-10-10";
         s.priceBought = 10.0;
