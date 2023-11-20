@@ -299,6 +299,8 @@ INSERT INTO employees
            (7, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
            (8, "Delivery Driver", "Ava", "Torres", "639183334444", "IloveMyCar", "303 Cedar St, Manila");
 
+
+
 SELECT *
 FROM supplier_info;
 
@@ -312,8 +314,12 @@ FROM symptom_and_medicine sm JOIN medicine_info m
                         JOIN symptom s
                         ON sm.symptom_id = s.symptom_id;
 
+
+-- Record Number 1 - Medicine Recommendations By Symptoms
 FROM symptom s JOIN symptom_and_medicine sm
 				ON s.symptom_ID = sm.symptom_ID
                 JOIN medicine_info m
                 ON sm.medicine_ID = m.medicine_ID
 WHERE s.symptom_name = "Heartburn";
+
+-- Record Number 2 - Monthly and Yearly Sales and Expenses Report
