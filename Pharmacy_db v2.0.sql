@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS medicine_info (
 -- --------------------------------------------------------
 DROP TABLE IF EXISTS orders;
 CREATE TABLE IF NOT EXISTS orders (
-	orderID				INT(5) NOT NULL,
+	orderID				INT(5) NOT NULL AUTO_INCREMENT,
     supplierID			INT(5) NOT NULL,
     date_ordered		DATE NOT NULL,
     medicineID			INT(5) NOT NULL,
