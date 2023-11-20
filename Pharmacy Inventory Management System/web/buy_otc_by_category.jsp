@@ -70,7 +70,7 @@
 
 <form action="buy_otc_by_category_select.jsp">
     <label for="category">Category:</label>
-    <select id="category" name="category">
+    <select id="category" name="category" value="Select Category">
         <% for (int i = 0; i < A.categoryList.size(); i++) { %>
             <option><%= A.categoryList.get(i) %></option>
         <% } %>

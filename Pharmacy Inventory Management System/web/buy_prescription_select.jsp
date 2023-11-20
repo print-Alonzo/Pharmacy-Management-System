@@ -76,44 +76,47 @@
 <%
     String searched_name = request.getParameter("name");
     A.get_meds_with_name(searched_name, 1);
-    for (int i = 0; i < A.medicineIDList.size(); i++) {
-        A.get_info(A.medicineIDList.get(i));
+    if (A.medicineIDList.size() > 0) {
+        for (int i = 0; i < A.medicineIDList.size(); i++) {
+            A.get_info(A.medicineIDList.get(i));
 %>
-        <div class="medicine-info">
-            Medicine ID: <%=A.medicineID%><br>
-            Brand Name: <%=A.brand_name%><br>
-            Generic Name: <%=A.generic_name%><br>
-            Volume (in ml): <%=A.volume_ml%><br>
-            Dosage (in mg): <%=A.dosage_mg%><br>
-            Category: <%=A.category%><br>
-            Price: <%=A.sellingPrice%><br>
-            Description: <%=A.description%><br>
-            Dosage Instructions: <%=A.dosage_instructions%><br>
-            Date Added: <%=A.date_added%><br>
-        </div>
-<%
-    }
+            <div class="medicine-info">
+                Medicine ID: <%=A.medicineID%><br>
+                Brand Name: <%=A.brand_name%><br>
+                Generic Name: <%=A.generic_name%><br>
+                Volume (in ml): <%=A.volume_ml%><br>
+                Dosage (in mg): <%=A.dosage_mg%><br>
+                Category: <%=A.category%><br>
+                Price: <%=A.sellingPrice%><br>
+                Description: <%=A.description%><br>
+            </div>
+<%      }
 %>
 
-<!-- Prompt the user to enter the med_id of the medicine they want to buy and the quantity -->
-<form action="buy_prescription_processing.jsp">
-    <label for="medID_to_buy">Enter ID of medicine to buy:</label>
-    <input type="text" id="medID_to_buy" name="medID_to_buy" required><br>
+        <form action="buy_prescription_processing.jsp">
+            <label for="medID_to_buy">Enter ID of medicine to buy:</label>
+            <input type="text" id="medID_to_buy" name="medID_to_buy" required><br>
 
-    <label for="quantity_to_buy">Enter Quantity:</label>
-    <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" max="9999999" required /><br>
+            <label for="quantity_to_buy">Enter Quantity:</label>
+            <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" max="9999999" required /><br>
 
-    <label for="cashier_id">Enter Cashier ID:</label>
-    <input type="text" id="cashier_id" name="cashier_id" required><br>
+            <label for="cashier_id">Enter Cashier ID:</label>
+            <input type="text" id="cashier_id" name="cashier_id" required><br>
 
-    <label for="pharmacist_id">Enter Pharmacist ID:</label>
-    <input type="text" id="pharmacist_id" name="pharmacist_id" required><br>
+            <label for="pharmacist_id">Enter Pharmacist ID:</label>
+            <input type="text" id="pharmacist_id" name="pharmacist_id" required><br>
 
-    <label for="pharmacist_password">Enter Password of Pharmacist:</label>
-    <input type="password" id="pharmacist_password" name="pharmacist_password" required><br>
+            <label for="pharmacist_password">Enter Password of Pharmacist:</label>
+            <input type="password" id="pharmacist_password" name="pharmacist_password" required><br>
 
-    <input type="submit" value="Submit"><br>
-</form>
+            <input type="submit" value="Submit"><br>
+        </form>
+
+<%  } else {
+%>
+        <h3>No medicine found with the specified name</h3><br><br>
+<%  }
+%>    
 
 </body>
 </html>

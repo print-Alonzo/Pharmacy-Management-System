@@ -69,10 +69,10 @@
         </style>
     </head>
     <body>
-        <h1>Order Medicine (View All)</h1>
+        <h1>Order Medicine (View By Supplier)</h1>
         <jsp:useBean id="B" class="pharmacysystem.medicines" scope="session" />
         <%
-            B.get_all_meds();
+            B.get_low_meds();
             for (int i = 0; i < B.medicineIDList.size(); i++) {
                 B.get_info_for_order(B.medicineIDList.get(i));
         %>
