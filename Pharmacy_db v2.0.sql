@@ -217,9 +217,9 @@ INSERT INTO supplier_info
 	VALUES 	(00001, "PharManila Inc.", "Unilab Distributor", "1002, Espana Blvd, Sampaloc, Manila", 639172180341),
 			(00002, "AnimoMeds Inc.", "Pfizer Distributor", "2401, Taft Ave, Malate, Manila", 639952180351),
             (00003, "MedLink Logistics", "Generics Distributor", "2402, Roxas Blvd, Ermita, Manila", 639174321234),
-            (00004, "MedArcher Distributors", "Distributor for Reckitt Benckiser", "2309, Don Chino Roces Ave Ext, Makati", 639152185710);
+            (00004, "MedArcher  Distributors", "Distributor for Reckitt Benckiser", "2309, Don Chino Roces Ave Ext, Makati", 639152185710);
 
-INSERT INTO medicine_info
+INSERT INTO medicine_info (medicine_id, generic_name, brand_name, volume_ml, dosage_mg, isPrescription, category, sellingPrice, description,supplierID)
 	VALUES 	(0001, "Sodium Alginate Sodium Bicarbonate Calcium Carbonate", "Gaviscon", 10, NULL, FALSE, "Antacids", 30, "for acid reflux", 4),
 			(0002, "Paracetamol", "Biogesic", NULL, 500, FALSE, "Pain Reliever", 3, "General Pain Reliever Drug", 1),
             (0003, "Clindamycin", "Cleocin", NULL, 300, TRUE, "Antibiotics", 140, "Strong Antibiotic for Acne", 2),
@@ -239,16 +239,26 @@ INSERT INTO medicine_info
 			(0017, "Sertraline", "Zoloft", NULL, 50, TRUE, "Psychotropic Medications", 30, "Antidepressant", 4),
 			(0018, "Rosuvastatin", "Crestor", NULL, 10, TRUE, "Hormones", 40, "For managing cholesterol levels", 2);
 
-CALL InsertMedicineStock(3, 1, '2023-11-20', '2024-01-15', 5.5);
-CALL InsertMedicineStock(2, 2, '2023-11-20', '2023-12-10', 3.0);
-CALL InsertMedicineStock(4, 3, '2023-11-20', '2024-03-01', 100.0);
-CALL InsertMedicineStock(5, 4, '2023-11-20', '2024-02-28', 5.0);
-CALL InsertMedicineStock(3, 5, '2023-11-20', '2024-06-15', 7.0);
-CALL InsertMedicineStock(2, 6, '2023-11-20', '2023-12-31', 6.5);
-CALL InsertMedicineStock(4, 7, '2023-11-20', '2024-05-20', 15.0);
-CALL InsertMedicineStock(3, 8, '2023-11-20', '2024-04-10', 4.0);
-CALL InsertMedicineStock(2, 9, '2023-11-20', '2024-02-01', 3.5);
-CALL InsertMedicineStock(5, 10, '2023-11-20', '2024-07-01', 8.0);            
+INSERT INTO orders (supplierID, date_ordered, medicineID, quantity, expiryDate, priceSold, order_status)
+    VALUES (00003, '2023-11-19', 0002, 100, '2026-11-18', 2, 'ordered'),
+            (00001, '2023-10-24', 0017, 5, '2025-10-23', 24, 'sent'),
+            (00001, '2023-10-25', 0002, 10, '2025-10-24', 2, 'ordered'),
+            (00003, '2023-11-08', 0010, 4, '2025-11-07', 8, 'sent'),
+            (00002, '2023-10-25', 0001, 5, '2026-10-24', 20, 'ordered'),
+            (00004, '2023-10-26', 0003, 10, '2026-10-25', 100, 'ordered');
+
+CALL InsertMedicineStock(100, 0002, '2023-11-29', '2026-11-18', 2);
+CALL InsertMedicineStock(10, 0002, '2023-10-25', '2025-10-24', 2);
+CALL InsertMedicineStock(5, 0001, '2023-10-25', '2026-10-24', 20);
+CALL InsertMedicineStock(10, 0003,  '2023-10-26', '2026-10-25', 100);   
+
+INSERT INTO transactions (priceBought, cashier, pharmacist, transactionDate)
+    VALUES (2, 2, 1, '2023-10-30 10:00:00'),
+            (24, 2, 1, '2023-10-30 10:00:00'),
+            (2, 2, 1, '2023-10-30 10:00:00'),
+            (8, 2, 1, '2023-10-30 10:00:00'),
+            (20, 2, 1, '2023-10-30 10:00:00'),
+            (100, 2, 1, '2023-10-30 10:00:00');
 
 INSERT INTO symptom
 	VALUES 	(0001, "Heartburn", "Burning sensation in the chest"),
@@ -299,50 +309,24 @@ INSERT INTO symptom_and_medicine
 			(0018, 0005, "Supports cholesterol management with anti-inflammatory properties");
             
 INSERT INTO positions
-	VALUES ("Pharmacist", 45000),
-		   ("Cashier", 30000),
-           ("Inventory Clerk", 30000),
+	VALUES ("Pharmacist", 30000),
+		   ("Cashier", 20000),
+           ("Inventory Clerk", 20000),
            ("Security Guard", 22000),
-           ("Janitor", 19000),
+           ("Janitor", 15000),
            ("Delivery Driver", 20000);
 
 INSERT INTO employees
 	VALUES (1, "Pharmacist", "Juan", "Dela Cruz", "639171234567", "12345", "100 Sinigang St, Tramo, Pasay"),
-		   (2, "Pharmacist", "Maria", "Santos", "639189543210", "75232", "3004 Kamagong St, Sta. Cruz, Makati"),
-           (3, "Cashier", "Jose", "Lopez", "639185551234", "IloveMyChildren", "123 Main St, Mandaluyong"),
-           (4, "Cashier", "Anna", "Reyes", "639181112233", "IloveMyWife", "456 Oak St, Quezon City"),
-           (5, "Inventory Clerk", "Daniel", "Gonzales", "639189998877", "LogisticsMan", "789 Pine St, Taguig"),
-           (6, "Security Guard", "Sofia", "Santiago", "639184445555", "IloveMyHusband", "101 Elm St, Pasig"),
-           (7, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
-           (8, "Delivery Driver", "Ava", "Torres", "639183334444", "IloveMyCar", "303 Cedar St, Manila");
-
+		   (2, "Cashier", "Jose", "Lopez", "639185551234", "IloveMyChildren", "123 Main St, Mandaluyong"),
+           (3, "Security Guard", "Sofia", "Santiago", "639184445555", "IloveMyHusband", "101 Elm St, Pasig"),
+           (4, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
+           
 INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_name)
-    VALUES  (1, 1, '2023-10-30', 45000, 'Pharmacist'),   
-            (2, 2, '2023-10-30', 45000, 'Pharmacist'),     
-            (3, 3, '2023-10-30', 30000, 'Cashier'),       
-            (4, 4, '2023-10-30', 30000, 'Cashier'),        
-            (5, 5, '2023-10-30', 30000, 'Inventory Clerk'),
-            (6, 6, '2023-10-30', 22000, 'Security Guard'),
-            (7, 7, '2023-10-30', 19000, 'Janitor'),      
-            (8, 8, '2023-10-30', 20000, 'Delivery Driver');
-
-INSERT INTO orders (supplierID, date_ordered, medicineID, quantity, expiryDate, priceSold, order_status)
-    VALUES  (00001, '2023-11-02', 0002, 30, '2024-12-15', 3.0, 'ordered'),
-            (00002, '2023-11-04', 0004, 14, '2024-11-20', 7.0, 'ordered'),
-            (00003, '2023-11-06', 0006, 10, '2024-10-25', 8.0, 'ordered'),
-            (00004, '2023-11-08', 0008, 18, '2024-09-30', 5.0, 'ordered'),
-            (00001, '2023-11-10', 0010, 6, '2024-08-05', 12.0, 'ordered'),
-            (00002, '2023-11-12', 0012, 22, '2024-07-10', 7.0, 'ordered'),
-            (00003, '2023-11-14', 0014, 3, '2024-06-15', 120.0, 'ordered'),
-            (00004, '2023-11-16', 0016, 7, '2024-05-20', 25.0, 'ordered'),
-            (00001, '2023-11-18', 0001, 15, '2024-04-25', 30.0, 'ordered'),
-            (00002, '2023-11-20', 0003, 5, '2024-03-30', 140.0, 'ordered'),
-            (00003, '2023-11-22', 0005, 11, '2024-02-05', 9.0, 'ordered'),
-            (00004, '2023-11-24', 0007, 3, '2024-01-10', 210.0, 'ordered'),
-            (00001, '2023-11-26', 0009, 17, '2023-12-15', 5.0, 'ordered'),
-            (00002, '2023-11-28', 0011, 25, '2023-11-20', 8.0, 'ordered'),
-            (00003, '2023-11-30', 0013, 9, '2023-10-25', 15.0, 'ordered');
-
+    VALUES  (1, 1, '2023-10-30', 30000, 'Pharmacist'),     
+            (2, 2, '2023-10-30', 20000, 'Cashier'),       
+            (3, 3, '2023-10-30', 22000, 'Security Guard'),
+            (4, 4, '2023-10-30', 15000, 'Janitor');
 
 SELECT *
 FROM supplier_info;
@@ -377,17 +361,6 @@ GROUP BY
     sales_year, sales_month
 ORDER BY
     sales_year, sales_month;
-
--- Get Yearly Sales
-SELECT
-    YEAR(transactionDate) AS sales_year,
-    SUM(priceBought) AS total_sales
-FROM
-    transactions
-GROUP BY
-    sales_year
-ORDER BY
-    sales_year;
 
 -- Get salary report
 SELECT
