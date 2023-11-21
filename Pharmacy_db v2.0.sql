@@ -312,7 +312,7 @@ INSERT INTO employees
 	VALUES (1, "Pharmacist", "Juan", "Dela Cruz", "639171234567", "12345", "100 Sinigang St, Tramo, Pasay"),
 		   (2, "Cashier", "Jose", "Lopez", "639185551234", "IloveMyChildren", "123 Main St, Mandaluyong"),
            (3, "Security Guard", "Sofia", "Santiago", "639184445555", "IloveMyHusband", "101 Elm St, Pasig"),
-           (4, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
+           (4, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati");
            
 INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_name)
     VALUES  (1, 1, '2023-10-30', 30000, 'Pharmacist'),     
