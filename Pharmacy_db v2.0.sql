@@ -269,7 +269,7 @@ INSERT INTO symptom
 			(0015, "High Blood Pressure", "Elevated blood pressure"),
 			(0016, "Acid Reflux", "Backward flow of stomach acid into the esophagus"),
 			(0017, "Depression", "Persistent feelings of sadness and hopelessness"),
-			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood");
+			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood"), ;
             
 INSERT INTO symptom_and_medicine
 	VALUES 	(0001, 0001, "Relieves heartburn symptoms"),
@@ -320,6 +320,24 @@ INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_
             (3, 3, '2023-10-30', 22000, 'Security Guard'),
             (4, 4, '2023-10-30', 15000, 'Janitor');
 
+INSERT INTO transactions (priceBought, cashier, pharmacist,transactionDate)
+	VALUES	(140, 2, 1, NOW()),
+			(140, 2, 1, NOW()),
+            (30, 2, 1, NOW());
+
+UPDATE medicine_stock
+SET transactionID = 00001
+WHERE stock_id = 121;
+
+UPDATE medicine_stock
+SET transactionID = 00002
+WHERE stock_id = 122;
+
+UPDATE medicine_stock
+SET transactionID = 00003
+WHERE stock_id = 111;
+
+
 SELECT *
 FROM supplier_info;
 
@@ -347,8 +365,8 @@ SELECT
     report_year,
     report_month,
     SUM(total_sales) AS total_sales,
-    SUM(total_salary) AS total_salary,
     SUM(total_costs) AS total_costs,
+    SUM(total_salary) AS total_salary,
     SUM(total_sales) - SUM(total_salary) - SUM(total_costs) AS total_profits
 FROM (
     -- Get Monthly Sales
@@ -395,8 +413,6 @@ GROUP BY
     report_year, report_month
 ORDER BY
     report_year, report_month;
-
-
 
 -- Report 3 : Monthly stock Report By Medicine.
 -- Stock In
