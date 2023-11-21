@@ -269,7 +269,7 @@ INSERT INTO symptom
 			(0015, "High Blood Pressure", "Elevated blood pressure"),
 			(0016, "Acid Reflux", "Backward flow of stomach acid into the esophagus"),
 			(0017, "Depression", "Persistent feelings of sadness and hopelessness"),
-			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood");
+			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood"), ;
             
 INSERT INTO symptom_and_medicine
 	VALUES 	(0001, 0001, "Relieves heartburn symptoms"),
@@ -320,6 +320,24 @@ INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_
             (3, 3, '2023-10-30', 22000, 'Security Guard'),
             (4, 4, '2023-10-30', 15000, 'Janitor');
 
+INSERT INTO transactions (priceBought, cashier, pharmacist,transactionDate)
+	VALUES	(140, 2, 1, NOW()),
+			(140, 2, 1, NOW()),
+            (30, 2, 1, NOW());
+
+UPDATE medicine_stock
+SET transactionID = 00001
+WHERE stock_id = 121;
+
+UPDATE medicine_stock
+SET transactionID = 00002
+WHERE stock_id = 122;
+
+UPDATE medicine_stock
+SET transactionID = 00003
+WHERE stock_id = 111;
+
+
 SELECT *
 FROM supplier_info;
 
@@ -342,43 +360,59 @@ FROM symptom s JOIN symptom_and_medicine sm
                 ON sm.medicine_ID = m.medicine_ID
 WHERE s.symptom_name = "Heartburn";
 
--- Record Number 2 - Monthly Sales
+-- Record Number 2
 SELECT
-    YEAR(transactionDate) AS sales_year,
-    MONTH(transactionDate) AS sales_month,
-    SUM(priceBought) AS total_sales
-FROM
-    transactions
+    report_year,
+    report_month,
+    SUM(total_sales) AS total_sales,
+    SUM(total_costs) AS total_costs,
+    SUM(total_salary) AS total_salary,
+    SUM(total_sales) - SUM(total_salary) - SUM(total_costs) AS total_profits
+FROM (
+    -- Get Monthly Sales
+    SELECT
+        YEAR(transactionDate) AS report_year,
+        MONTH(transactionDate) AS report_month,
+        SUM(priceBought) AS total_sales,
+        0 AS total_salary,
+        0 AS total_costs
+    FROM
+        transactions
+    GROUP BY
+        report_year, report_month
+
+    UNION
+
+    -- Get Monthly Salary Report
+    SELECT
+        YEAR(date_given) AS report_year,
+        MONTH(date_given) AS report_month,
+        0 AS total_sales,
+        SUM(payout_amount) AS total_salary,
+        0 AS total_costs
+    FROM
+        payout
+    GROUP BY
+        report_year, report_month
+
+    UNION
+
+    -- Get Monthly Drug Cost Report
+    SELECT
+        YEAR(date_ordered) AS report_year,
+        MONTH(date_ordered) AS report_month,
+        0 AS total_sales,
+        0 AS total_salary,
+        SUM(priceSold * quantity) AS total_costs
+    FROM
+        orders
+    GROUP BY
+        report_year, report_month
+) AS combined_data
 GROUP BY
-    sales_year, sales_month
+    report_year, report_month
 ORDER BY
-    sales_year, sales_month;
-
--- Get salary report
-SELECT
-    YEAR(date) AS salary_year,
-    MONTH(date) AS salary_month,
-    SUM(payout_amount) AS total_salary
-FROM
-    payout
-GROUP BY
-    sales_year, sales_month
-ORDER BY
-    sales_year, sales_month;
-
--- Get drug cost report
-SELECT
-    YEAR(date_ordered) AS cost_year,
-    MONTH(date_ordered) AS cost_month,
-    SUM(priceSold*quantity) AS total_costs
-FROM
-    orders
-GROUP BY
-    cost_year, cost_month
-ORDER BY
-    cost_year, cost_month;
-
-
+    report_year, report_month;
 
 -- Report 3 : Monthly stock Report By Medicine.
 -- Stock In

@@ -53,9 +53,9 @@
 </head>
 <body>
     <h1>Monthly Stock Report</h1>
-    <jsp:useBean id="A" class="pharmacysystem.stockreport" scope="session" />
+    <jsp:useBean id="Z" class="pharmacysystem.stockreport" scope="session" />
     <%
-        A.generateStockReport();
+        Z.generateStockReport();
     %>
 
     <div>
@@ -71,13 +71,13 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(int i = 0; i < A.medicineIDList1.size(); i++){ %>
+                <% for(int i = 0; i < Z.medicineIDList1.size(); i++){ %>
                     <tr>
-                        <td><%= A.yearList1.get(i)%></td>
-                        <td><%= A.monthList1.get(i)%></td>
-                        <td><%= A.medicineIDList1.get(i)%></td>
-                        <td><%= A.brandNameList1.get(i)%></td>
-                        <td><%= A.received1.get(i)%></td>
+                        <td><%= Z.yearList1.get(i)%></td>
+                        <td><%= Z.monthList1.get(i)%></td>
+                        <td><%= Z.medicineIDList1.get(i)%></td>
+                        <td><%= Z.brandNameList1.get(i)%></td>
+                        <td><%= Z.received1.get(i)%></td>
                     </tr>
                 <% System.out.println(i);} %>
             </tbody>
@@ -97,13 +97,13 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(int i = 0; i < A.medicineIDList3.size(); i++){ %>
+                <% for(int i = 0; i < Z.medicineIDList3.size(); i++){ %>
                     <tr>
-                        <td><%= A.yearList3.get(i)%></td>
-                        <td><%= A.monthList3.get(i)%></td>
-                        <td><%= A.medicineIDList3.get(i)%></td>
-                        <td><%= A.brandNameList3.get(i)%></td>
-                        <td><%= A.sold3.get(i)%></td>
+                        <td><%= Z.yearList3.get(i)%></td>
+                        <td><%= Z.monthList3.get(i)%></td>
+                        <td><%= Z.medicineIDList3.get(i)%></td>
+                        <td><%= Z.brandNameList3.get(i)%></td>
+                        <td><%= Z.sold3.get(i)%></td>
                     </tr>
                 <% System.out.println(i);} %>
             </tbody>
@@ -123,13 +123,13 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(int i = 0; i < A.medicineIDList2.size(); i++){ %>
+                <% for(int i = 0; i < Z.medicineIDList2.size(); i++){ %>
                     <tr>
-                        <td><%= A.yearList2.get(i)%></td>
-                        <td><%= A.monthList2.get(i)%></td>
-                        <td><%= A.medicineIDList2.get(i)%></td>
-                        <td><%= A.brandNameList2.get(i)%></td>
-                        <td><%= A.expired2.get(i)%></td>
+                        <td><%= Z.yearList2.get(i)%></td>
+                        <td><%= Z.monthList2.get(i)%></td>
+                        <td><%= Z.medicineIDList2.get(i)%></td>
+                        <td><%= Z.brandNameList2.get(i)%></td>
+                        <td><%= Z.expired2.get(i)%></td>
                     </tr>
                 <% System.out.println(i);} %>
             </tbody>

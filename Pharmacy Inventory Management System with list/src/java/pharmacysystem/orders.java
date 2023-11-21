@@ -21,7 +21,6 @@ public class orders {
         orderIDList.clear();
     }
     
-    
     public int check_if_orderID_exists(int id_no) {
         try {
             Connection conn = DriverManager.getConnection(database);
@@ -194,6 +193,10 @@ public class orders {
         System.out.println(o.date_expired);
 
     }
+
+
+
+}
 
 
 
