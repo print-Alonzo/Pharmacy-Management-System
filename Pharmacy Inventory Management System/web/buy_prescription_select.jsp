@@ -45,7 +45,8 @@
 
         input[type="text"],
         input[type="number"],
-        input[type="password"]{
+        input[type="password"],
+        input[type="date"]{
             width: 50%;
             padding: 10px;
             margin-bottom: 15px;
@@ -98,7 +99,7 @@
             <input type="text" id="medID_to_buy" name="medID_to_buy" required><br>
 
             <label for="quantity_to_buy">Enter Quantity:</label>
-            <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" max="9999999" required /><br>
+            <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" min="1" max="9999999" required /><br>
 
             <label for="cashier_id">Enter Cashier ID:</label>
             <input type="text" id="cashier_id" name="cashier_id" required><br>
@@ -108,6 +109,9 @@
 
             <label for="pharmacist_password">Enter Password of Pharmacist:</label>
             <input type="password" id="pharmacist_password" name="pharmacist_password" required><br>
+            
+            <label for="date_sold">Enter Date:</label>
+            <input type="date" id="date_sold" name="date_sold" required /><br>
 
             <input type="submit" value="Submit"><br>
         </form>

@@ -12,12 +12,13 @@ public class orders {
     public int quantity;
     public String order_status;
     public double priceSold;
+    
+    private String database = "jdbc:mysql://localhost:3306/pharmacy_db?user=root&password=12345678&useTimezone=true&serverTimezone=UTC&useSSL=false";
 
     public int addOrder(){
         try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmacy_db?allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC&user=root&password=12345&useSSL=false");
-            System.out.println("Connection success!");
-
+            Connection conn = DriverManager.getConnection(database);
+                    
             String sql = "INSERT INTO orders (supplierID, date_ordered, medicineID, quantity, expiryDate, priceSold, order_status) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement psmt = conn.prepareStatement(sql);
@@ -41,7 +42,7 @@ public class orders {
 
     public int setOrderToReceived(int orderID){
         try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmacy_db?allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC&user=root&password=12345&useSSL=false");
+            Connection conn = DriverManager.getConnection(database);
             
             //get info from order
             String query = "SELECT * FROM orders WHERE orderID = " + orderID;

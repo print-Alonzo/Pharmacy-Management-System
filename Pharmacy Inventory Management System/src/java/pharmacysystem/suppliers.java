@@ -43,6 +43,28 @@ public class suppliers {
         }
     }
     
+    public int check_if_supplierID_exists(int id_no) {
+        try {
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT supplierID FROM supplier_info WHERE supplierID = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, id_no);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                if (rst.getInt("supplierID") == id_no)
+                    return 1;
+            }
+            pstmt.close();
+            conn.close();
+            
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    
     public static void main(String[] args){
         suppliers s = new suppliers();
         s.get_supplier_names();

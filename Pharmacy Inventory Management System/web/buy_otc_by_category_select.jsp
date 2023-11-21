@@ -97,12 +97,15 @@
             <input type="text" id="medID_to_buy" name="medID_to_buy" required><br>
 
             <label for="quantity_to_buy">Enter Quantity:</label>
-            <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" max="9999999" required /><br>
+            <input type="number" id="quantity_to_buy" name="quantity_to_buy" placeholder="0" step="1" min="1" max="9999999" required /><br>
 
             <label for="cashier_id">Enter Cashier ID:</label>
             <input type="text" id="cashier_id" name="cashier_id" required><br>
 
-            <input type="submit" value="Submit">
+            <label for="date_sold">Enter Date:</label>
+            <input type="date" id="date_sold" name="date_sold" required /><br>
+
+            <input type="submit" value="Submit"><br>
         </form>
 
 <%  } else {

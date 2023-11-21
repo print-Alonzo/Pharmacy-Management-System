@@ -70,19 +70,20 @@
     </head>
     <body>
         <h1>Order Medicine (View By Supplier)</h1>
-        <jsp:useBean id="B" class="pharmacysystem.medicines" scope="session" />
+        <jsp:useBean id="G" class="pharmacysystem.medicines" scope="session" />
         <%
-            B.get_low_meds();
-            for (int i = 0; i < B.medicineIDList.size(); i++) {
-                B.get_info_for_order(B.medicineIDList.get(i));
+            G.get_low_meds();
+            for (int i = 0; i < G.medicineIDList.size(); i++) {
+                G.get_info_for_order(G.medicineIDList.get(i));
         %>
                 <div class="medicine-info">
-                    Medicine ID: <%=B.medicineID%><br>
-                    Brand Name: <%=B.brand_name%><br>
-                    Generic Name: <%=B.generic_name%><br>
-                    Stock: <%=B.stock%><br>
-                    Supplier Name: <%=B.supplier_name%><br>
-                    Unit Price: <%=B.sellingPrice%><br>
+                    Medicine ID: <%=G.medicineID%><br>
+                    Brand Name: <%=G.brand_name%><br>
+                    Generic Name: <%=G.generic_name%><br>
+                    Stock: <%=G.stock%><br>
+                    Supplier ID: <%=G.supplier_id%><br>
+                    Supplier Name: <%=G.supplier_name%><br>
+                    Unit Price: <%=G.sellingPrice%><br>
                 </div>
         <%
             }
@@ -94,11 +95,20 @@
             <input type="text" id="medID_to_order" name="medID_to_order" required><br>
 
             <label for="quantity_to_order">Enter Quantity:</label>
-            <input type="number" id="quantity_to_order" name="quantity_to_order" placeholder="0" step="1" max="9999999" required /><br>
+            <input type="number" id="quantity_to_order" name="quantity_to_order" placeholder="0" step="1" min="1" max="9999999" required /><br>
 
-            <label for="date_of_order">Enter Date:</label>
+            <label for="date_of_order">Enter Date Of Order:</label>
             <input type="date" id="date_of_order" name="date_of_order" required /><br>
-
+            
+            <label for="expiration_date">Enter Expiration Date:</label>
+            <input type="date" id="expiration_date" name="expiration_date" required /><br>
+            
+            <label for="price_of_supplier">Enter Unit Price:</label>
+            <input type="number" id="price_of_supplier" name="price_of_supplier" placeholder="0" step="1" min="1" max="9999999" required /><br>
+            
+            <label for="supplier_id">Enter Supplier Id:</label>
+            <input type="number" id="supplier_id" name="supplier_id" placeholder="0" step="1" min="1" max="9999999" required /><br>
+            
             <input type="submit" value="Submit"><br>
         </form>
         

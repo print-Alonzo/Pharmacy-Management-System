@@ -27,6 +27,8 @@ public class employees {
     
     public ArrayList<Integer> employee_idList = new ArrayList<>();
     
+    private String database = "jdbc:mysql://localhost:3306/pharmacy_db?user=root&password=12345678&useTimezone=true&serverTimezone=UTC&useSSL=false";
+    
     public employees() {
         
     }
@@ -37,8 +39,8 @@ public class employees {
     
     public void get_info(int id_no) {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678&useSSL=false");
-            String query = "SELECT e.employee_id AS id, e.position AS position, e.first_name AS first_name, e.last_name AS last_name, e.contact_no AS contact_no, e.password AS password, e.address AS address, p.salary AS salary FROM employees e JOIN position p ON e.position = p.position_name WHERE e.employee_id = ?";
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT e.employee_id AS id, e.position_name AS position, e.first_name AS first_name, e.last_name AS last_name, e.contact_no AS contact_no, e.pw AS password, e.address AS address, p.salary AS salary FROM employees e JOIN position p ON e.position_name = p.position_name WHERE e.employee_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, id_no);
             ResultSet rst = pstmt.executeQuery();
@@ -62,8 +64,8 @@ public class employees {
     
     public int check_password(int id_no, String password) {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678&useSSL=false");
-            String query = "SELECT password FROM employees WHERE employee_id = ?";
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT pw FROM employees WHERE employee_id = ? AND position_name = 'Pharmacist'";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, id_no);
             ResultSet rst = pstmt.executeQuery();
@@ -71,7 +73,7 @@ public class employees {
                 if (rst.wasNull())
                     return 0;
                 
-                if (password.equals(rst.getString("password")))
+                if (password.equals(rst.getString("pw")))
                     return 1;
                 else
                     return 0;
@@ -88,8 +90,8 @@ public class employees {
     
     public void get_employees_in_position(String position) {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678&useSSL=false");
-            String query = "SELECT employee_id FROM employees WHERE position = ? ORDER BY employee_id";
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT employee_id FROM employees WHERE position_name = ? ORDER BY employee_id";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, position);
             ResultSet rst = pstmt.executeQuery();
@@ -105,5 +107,8 @@ public class employees {
         }
     }
     
-    
+    public static void main(String[] args){
+        employees e = new employees();
+        System.out.println(e.check_password(1, "12345"));
+    }
 }

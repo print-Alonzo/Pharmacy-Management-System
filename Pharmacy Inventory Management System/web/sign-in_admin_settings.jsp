@@ -47,11 +47,11 @@
 
 <!-- Admin Settings -->
 <h1>Admin Settings</h1>
-<jsp:useBean id="A" class="pharmacysystem.employees" scope="session" />
+<jsp:useBean id="B" class="pharmacysystem.employees" scope="session" />
 <%
     int entered_id_no = Integer.parseInt(request.getParameter("id_no"));
     String entered_password = request.getParameter("password");
-    if (entered_id_no != 123 && !entered_password.equals("123")) {
+    if (B.check_password(entered_id_no, entered_password) != 1) {
 %>
         <p>Incorrect Account Information Entered</p>
 <%

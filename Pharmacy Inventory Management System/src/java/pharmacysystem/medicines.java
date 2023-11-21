@@ -17,6 +17,7 @@ public class medicines {
     public Double sellingPrice;
     public String description;
     public int stock;
+    public int supplier_id;
     public String supplier_name;
     
     public ArrayList<Integer> medicineIDList = new ArrayList<>();
@@ -69,7 +70,7 @@ public class medicines {
         try {
             Connection conn = DriverManager.getConnection(database);
             String query = "SELECT m.medicine_id AS id, m.brand_name AS b_name, m.generic_name AS g_name, COUNT(ms.medicine_id) AS stock, m.supplierID AS s_id, m.sellingPrice as s_price FROM medicine_info m LEFT JOIN medicine_stock ms ON m.medicine_id = ms.medicine_id WHERE m.medicine_id = ? GROUP BY m.medicine_id ORDER BY m.medicine_id";
-            String query2 = "SELECT supp_name FROM supplier_info WHERE supplierID = ?";
+            String query2 = "SELECT supplierID, supp_name FROM supplier_info WHERE supplierID = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             PreparedStatement pstmt2 = conn.prepareStatement(query2);
             pstmt.setInt(1, id_no);
@@ -84,6 +85,7 @@ public class medicines {
                 pstmt2.setInt(1, rst.getInt("s_id"));
                 ResultSet rst2 = pstmt2.executeQuery();
                 while (rst2.next()) {
+                    supplier_id = rst2.getInt("supplierID");
                     supplier_name = rst2.getString("supp_name");
                 }
             }
@@ -208,9 +210,30 @@ public class medicines {
         }
     }
     
+    public int check_if_medID_exists(int id_no) {
+        try {
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT medicine_id FROM medicine_info WHERE medicine_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, id_no);
+            ResultSet rst = pstmt.executeQuery();
+            while (rst.next()) {
+                if (rst.getInt("medicine_id") == id_no)
+                    return 1;
+            }
+            pstmt.close();
+            conn.close();
+            
+            return 0;
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    
     public static void main(String[] args){
         medicines med = new medicines();
-        med.get_low_meds();
-        System.out.println(med.medicineIDList);
+        System.out.println(med.check_if_medID_exists(1));
     }
 }
