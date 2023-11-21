@@ -416,17 +416,27 @@ ORDER BY
 
 
 -- Report 3 : Monthly stock Report By Medicine.
--- NOTE!!! REPLACE 11 AND 23 in the java file
-SELECT i.medicine_id, YEAR(s.dateReceived) AS 'year_report', MONTH(s.dateReceived) AS 'month_report', COUNT(s.stock_id) AS 'Amount Received', COUNT(t.transactionDate) AS 'Amount Sold'
-FROM medicine_info i LEFT JOIN medicine_stock s
+-- Stock In
+SELECT i.medicine_id, i.brand_name, YEAR(s.dateReceived) AS 'year_report', MONTH(s.dateReceived) AS 'month_report', COUNT(s.stock_id) AS 'Amount Received'
+FROM medicine_stock s LEFT JOIN medicine_info i
 					ON i.medicine_id = s.medicine_id
-                    LEFT JOIN transactions t
-                    ON s.transactionID = t.transactionID
+GROUP BY i.medicine_id, year_report, month_report
+ORDER BY year_report, month_report;
+
+
+-- Stock Out
+SELECT i.medicine_id, i.brand_name, YEAR(t.transactionDate) AS 'year_report', MONTH(t.transactionDate) AS 'month_report', COUNT(s.stock_id) AS 'Amount Sold'
+FROM transactions t LEFT JOIN medicine_stock s
+                      ON s.transactionID = t.transactionID
+                      LEFT JOIN medicine_info i
+                      ON s.medicine_id = i.medicine_id
 GROUP BY i.medicine_id, year_report, month_report
 ORDER BY year_report, month_report;
 
 -- expiring report
-SELECT s.medicine_id, YEAR(s.dateExpire) AS 'year_report', MONTH(s.dateExpire) AS 'month_report', COUNT(s.stock_id) AS 'Amount Expiring'
-FROM medicine_stock s
+SELECT s.medicine_id, i.brand_name, YEAR(s.dateExpire) AS 'year_report', MONTH(s.dateExpire) AS 'month_report', COUNT(s.stock_id) AS 'Amount Expiring'
+FROM medicine_stock s LEFT JOIN medicine_info i
+					  ON s.medicine_id = i.medicine_id
 WHERE s.transactionID IS NULL
-GROUP BY s.medicine_id, year_report, month_report;
+GROUP BY s.medicine_id, year_report, month_report
+ORDER BY year_report, month_report;
