@@ -252,14 +252,6 @@ CALL InsertMedicineStock(10, 0002, '2023-10-25', '2025-10-24', 2);
 CALL InsertMedicineStock(5, 0001, '2023-10-25', '2026-10-24', 20);
 CALL InsertMedicineStock(10, 0003,  '2023-10-26', '2026-10-25', 100);   
 
-INSERT INTO transactions (priceBought, cashier, pharmacist, transactionDate)
-    VALUES (2, 2, 1, '2023-10-30 10:00:00'),
-            (24, 2, 1, '2023-10-30 10:00:00'),
-            (2, 2, 1, '2023-10-30 10:00:00'),
-            (8, 2, 1, '2023-10-30 10:00:00'),
-            (20, 2, 1, '2023-10-30 10:00:00'),
-            (100, 2, 1, '2023-10-30 10:00:00');
-
 INSERT INTO symptom
 	VALUES 	(0001, "Heartburn", "Burning sensation in the chest"),
 			(0002, "Fever", "Elevated body temperature"),
