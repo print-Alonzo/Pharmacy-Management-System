@@ -53,7 +53,7 @@
 </head>
 <body>
     <h1>Monthly Stock Report</h1>
-    <jsp:useBean id="A" class="pharmacysystem.stockreport" scope="session" />
+    <jsp:useBean id="A" class="pharmacysystem.stockreport" scope="page" />
     <%
         A.generateStockReport();
     %>
