@@ -106,6 +106,48 @@ public class employees {
             System.out.println(e.getMessage());
         }
     }
+
+    public int getAllEmployees(){
+        try{
+            employee_idList.clear();
+            positionList.clear();
+            first_nameList.clear();
+            last_nameList.clear();
+            contact_noList.clear();
+            addressList.clear();
+            salaryList.clear();
+            
+            
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT e.employee_id, e.position_name, e.first_name, e.last_name, e.contact_no, e.address, p.salary FROM employees e LEFT JOIN positions p ON e.position_name = p.position_name ORDER BY e.employee_id";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet rst = pstmt.executeQuery();
+            while(rst.next()){
+                employee_id = rst.getInt("employee_id");
+                position = rst.getString("position_name");
+                first_name = rst.getString("first_name");
+                last_name = rst.getString("last_name");
+                contact_no = rst.getLong("contact_no");
+                address = rst.getString("address");
+                salary = rst.getDouble("salary");
+                
+                employee_idList.add(employee_id);
+                positionList.add(position);
+                first_nameList.add(first_name);
+                last_nameList.add(last_name);
+                contact_noList.add(contact_no);
+                addressList.add(address);
+                salaryList.add(salary);
+                
+            }
+            pstmt.close();
+            conn.close();
+            return 1;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
     
     public static void main(String[] args){
         employees e = new employees();
