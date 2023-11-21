@@ -100,9 +100,6 @@
             <label for="date_of_order">Enter Date Of Order:</label>
             <input type="date" id="date_of_order" name="date_of_order" required /><br>
             
-            <label for="expiration_date">Enter Expiration Date:</label>
-            <input type="date" id="expiration_date" name="expiration_date" required /><br>
-            
             <label for="price_of_supplier">Enter Unit Price:</label>
             <input type="number" id="price_of_supplier" name="price_of_supplier" placeholder="0" step="1" min="1" max="9999999" required /><br>
             

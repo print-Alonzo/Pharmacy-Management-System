@@ -13,10 +13,7 @@ public class suppliers {
     public String address;
     public Long contact_number;
     
-    public ArrayList<Integer> supplierIDList = new ArrayList<>();
     public ArrayList<String> nameList = new ArrayList<>();
-    public ArrayList<String> descriptionList = new ArrayList<>();
-    public ArrayList<Long> contact_numberList = new ArrayList<>();
     
     private String database = "jdbc:mysql://localhost:3306/pharmacy_db?user=root&password=12345678&useTimezone=true&serverTimezone=UTC&useSSL=false";
     
@@ -67,7 +64,7 @@ public class suppliers {
             return 0;
         }
     }
-    
+
     public int getAllSuppliers() {
         try {
             supplierIDList.clear();
@@ -100,11 +97,10 @@ public class suppliers {
             return 0;
         }
     }
-
     
     public static void main(String[] args){
         suppliers s = new suppliers();
-        s.getAllSuppliers();
-        System.out.println(s.descriptionList);
+        s.get_supplier_names();
+        System.out.println(s.nameList);
     }
 }

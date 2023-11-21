@@ -25,16 +25,7 @@ public class employees {
     public String address;
     public Double salary;
     
-    
     public ArrayList<Integer> employee_idList = new ArrayList<>();
-    public ArrayList<String> positionList = new ArrayList<>();
-    public ArrayList<String> first_nameList = new ArrayList<>();
-    public ArrayList<String> last_nameList = new ArrayList<>();
-    public ArrayList<Long> contact_noList = new ArrayList<>();
-    public ArrayList<String> addressList = new ArrayList<>();
-    public ArrayList<Double> salaryList = new ArrayList<>();
-            
-    
     
     private String database = "jdbc:mysql://localhost:3306/pharmacy_db?user=root&password=12345678&useTimezone=true&serverTimezone=UTC&useSSL=false";
     
@@ -115,7 +106,7 @@ public class employees {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public int getAllEmployees(){
         try{
             employee_idList.clear();
@@ -160,10 +151,6 @@ public class employees {
     
     public static void main(String[] args){
         employees e = new employees();
-        //System.out.println(e.check_password(1, "12345"));
-        e.getAllEmployees();
-        for(String first_name : e.first_nameList){
-            System.out.println(first_name);
-        }
+        System.out.println(e.check_password(1, "12345"));
     }
 }
