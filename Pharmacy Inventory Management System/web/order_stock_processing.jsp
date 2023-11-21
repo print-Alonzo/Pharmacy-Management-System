@@ -27,7 +27,6 @@
         if (M.check_if_medID_exists(med_id) == 1 && O.check_if_supplierID_exists(supplier_id) == 1) {
             N.supplierID = supplier_id;
             N.date_ordered = order_date;
-            N.date_expired = expiration_date;
             N.medicine_id = med_id;
             N.quantity = quantity;
             N.priceSold = price_of_supplier;
@@ -36,7 +35,7 @@
             <h3>Order Complete</h3><br>
             Supplier ID: <%=supplier_id%><br>
             Date of Order: <%=order_date%><br>
-            Product Expiry Date: <%=expiration_date%><br>
+            Product Expiry Date: <%=N.date_expired%><br>
             Medicine ID: <%=med_id%><br>
             Quantity: <%=quantity%><br>
             Order Status: Ordered<br>

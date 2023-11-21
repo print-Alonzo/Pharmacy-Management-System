@@ -24,7 +24,7 @@
                 color: #007bff;
             }
 
-            .medicine-info {
+            .order-info {
                 margin: 20px 0;
                 padding: 10px;
                 border: 2px solid #007bff;
@@ -69,43 +69,31 @@
         </style>
     </head>
     <body>
-        <h1>Order Medicine (View By Supplier)</h1>
-        <jsp:useBean id="F" class="pharmacysystem.medicines" scope="session" />
+        <h1>Update Order Status</h1>
+        <jsp:useBean id="Q" class="pharmacysystem.orders" scope="session" />
         <%
-            String searched_category = request.getParameter("supplier");
-            F.get_supplier_meds(searched_category);
-            for (int i = 0; i < F.medicineIDList.size(); i++) {
-                F.get_info_for_order(F.medicineIDList.get(i));
+            Q.get_sent_orders();
+            for (int i = 0; i < Q.orderIDList.size(); i++) {
+                Q.get_order_info(Q.orderIDList.get(i));
         %>
-                <div class="medicine-info">
-                    Medicine ID: <%=F.medicineID%><br>
-                    Brand Name: <%=F.brand_name%><br>
-                    Generic Name: <%=F.generic_name%><br>
-                    Stock: <%=F.stock%><br>
-                    Supplier ID: <%=F.supplier_id%><br>
-                    Supplier Name: <%=F.supplier_name%><br>
-                    Unit Price: <%=F.sellingPrice%><br>
+                <div class="order-info">
+                    Order ID: <%=Q.orderID%><br>
+                    Supplier ID: <%=Q.supplierID%><br>
+                    Date Ordered: <%=Q.date_ordered%><br>
+                    Expiry Date: <%=Q.date_expired%><br>
+                    Medicine ID: <%=Q.medicine_id%><br>
+                    Quantity: <%=Q.quantity%><br>
+                    Order Status: <%=Q.order_status%><br>
+                    Supplier Unit Price: <%=Q.priceSold%><br>
                 </div>
         <%
             }
-        %>
+        %> 
 
         <!-- Prompt the user to enter the med_id of the medicine they want to buy and the quantity -->
-        <form action="order_stock_processing.jsp">
-            <label for="medID_to_order">Enter ID of medicine to order:</label>
-            <input type="text" id="medID_to_order" name="medID_to_order" required><br>
-
-            <label for="quantity_to_order">Enter Quantity:</label>
-            <input type="number" id="quantity_to_order" name="quantity_to_order" placeholder="0" step="1" min="1" max="9999999" required /><br>
-
-            <label for="date_of_order">Enter Date Of Order:</label>
-            <input type="date" id="date_of_order" name="date_of_order" required /><br>
-            
-            <label for="price_of_supplier">Enter Unit Price:</label>
-            <input type="number" id="price_of_supplier" name="price_of_supplier" placeholder="0" step="1" min="1" max="9999999" required /><br>
-            
-            <label for="supplier_id">Enter Supplier Id:</label>
-            <input type="number" id="supplier_id" name="supplier_id" placeholder="0" step="1" min="1" max="9999999" required /><br>
+        <form action="update_order_status_processing.jsp">
+            <label for="order_received">Enter ID of medicine to order:</label>
+            <input type="text" id="order_received" name="order_received" required><br>
             
             <input type="submit" value="Submit"><br>
         </form>
