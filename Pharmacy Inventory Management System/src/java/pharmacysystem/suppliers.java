@@ -64,6 +64,39 @@ public class suppliers {
             return 0;
         }
     }
+
+    public int getAllSuppliers() {
+        try {
+            supplierIDList.clear();
+            nameList.clear();
+            descriptionList.clear();
+            contact_numberList.clear();
+
+            Connection conn = DriverManager.getConnection(database);
+            String query = "SELECT * FROM supplier_info ORDER BY supplierID";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet rst = pstmt.executeQuery();
+            
+            while (rst.next()) {
+                supplierID = rst.getInt("supplierID");
+                name = rst.getString("supp_name");
+                description = rst.getString("supp_description");
+                contact_number = rst.getLong("contact_number");
+
+                supplierIDList.add(supplierID);
+                nameList.add(name);
+                descriptionList.add(description);
+                contact_numberList.add(contact_number);
+            }
+
+            pstmt.close();
+            conn.close();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
     
     public static void main(String[] args){
         suppliers s = new suppliers();
