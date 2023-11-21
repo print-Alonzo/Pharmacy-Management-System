@@ -128,7 +128,7 @@ public class employees {
             
             
             Connection conn = DriverManager.getConnection(database);
-            String query = "SELECT e.employee_id, e.position_name, e.first_name, e.last_name, e.contact_no, e.address, p.salary FROM employees e LEFT JOIN positions p ON e.position_name = p.position_name";
+            String query = "SELECT e.employee_id, e.position_name, e.first_name, e.last_name, e.contact_no, e.address, p.salary FROM employees e LEFT JOIN positions p ON e.position_name = p.position_name ORDER BY e.employee_id";
             PreparedStatement pstmt = conn.prepareStatement(query);
             ResultSet rst = pstmt.executeQuery();
             while(rst.next()){
