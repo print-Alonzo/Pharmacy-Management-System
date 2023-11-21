@@ -312,7 +312,7 @@ INSERT INTO employees
 	VALUES (1, "Pharmacist", "Juan", "Dela Cruz", "639171234567", "12345", "100 Sinigang St, Tramo, Pasay"),
 		   (2, "Cashier", "Jose", "Lopez", "639185551234", "IloveMyChildren", "123 Main St, Mandaluyong"),
            (3, "Security Guard", "Sofia", "Santiago", "639184445555", "IloveMyHusband", "101 Elm St, Pasig"),
-           (4, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati"),
+           (4, "Janitor", "Oliver", "Villanueva", "639187776666", "ImissYouSoMuch", "202 Maple St, Makati");
            
 INSERT INTO payout (payout_id, employee_id, date_given, payout_amount, position_name)
     VALUES  (1, 1, '2023-10-30', 30000, 'Pharmacist'),     
@@ -342,41 +342,59 @@ FROM symptom s JOIN symptom_and_medicine sm
                 ON sm.medicine_ID = m.medicine_ID
 WHERE s.symptom_name = "Heartburn";
 
--- Record Number 2 - Monthly Sales
+-- Record Number 2
 SELECT
-    YEAR(transactionDate) AS sales_year,
-    MONTH(transactionDate) AS sales_month,
-    SUM(priceBought) AS total_sales
-FROM
-    transactions
-GROUP BY
-    sales_year, sales_month
-ORDER BY
-    sales_year, sales_month;
+    report_year,
+    report_month,
+    SUM(total_sales) AS total_sales,
+    SUM(total_salary) AS total_salary,
+    SUM(total_costs) AS total_costs,
+    SUM(total_sales) - SUM(total_salary) - SUM(total_costs) AS total_profits
+FROM (
+    -- Get Monthly Sales
+    SELECT
+        YEAR(transactionDate) AS report_year,
+        MONTH(transactionDate) AS report_month,
+        SUM(priceBought) AS total_sales,
+        0 AS total_salary,
+        0 AS total_costs
+    FROM
+        transactions
+    GROUP BY
+        report_year, report_month
 
--- Get salary report
-SELECT
-    YEAR(date) AS salary_year,
-    MONTH(date) AS salary_month,
-    SUM(payout_amount) AS total_salary
-FROM
-    payout
-GROUP BY
-    sales_year, sales_month
-ORDER BY
-    sales_year, sales_month;
+    UNION
 
--- Get drug cost report
-SELECT
-    YEAR(date_ordered) AS cost_year,
-    MONTH(date_ordered) AS cost_month,
-    SUM(priceSold*quantity) AS total_costs
-FROM
-    orders
+    -- Get Monthly Salary Report
+    SELECT
+        YEAR(date_given) AS report_year,
+        MONTH(date_given) AS report_month,
+        0 AS total_sales,
+        SUM(payout_amount) AS total_salary,
+        0 AS total_costs
+    FROM
+        payout
+    GROUP BY
+        report_year, report_month
+
+    UNION
+
+    -- Get Monthly Drug Cost Report
+    SELECT
+        YEAR(date_ordered) AS report_year,
+        MONTH(date_ordered) AS report_month,
+        0 AS total_sales,
+        0 AS total_salary,
+        SUM(priceSold * quantity) AS total_costs
+    FROM
+        orders
+    GROUP BY
+        report_year, report_month
+) AS combined_data
 GROUP BY
-    cost_year, cost_month
+    report_year, report_month
 ORDER BY
-    cost_year, cost_month;
+    report_year, report_month;
 
 
 
