@@ -26,6 +26,12 @@ public class employees {
     public Double salary;
     
     public ArrayList<Integer> employee_idList = new ArrayList<>();
+    public ArrayList<String> positionList = new ArrayList<>();
+    public ArrayList<String> first_nameList = new ArrayList<>();
+    public ArrayList<String> last_nameList = new ArrayList<>();
+    public ArrayList<Long> contact_noList = new ArrayList<>();
+    public ArrayList<String> addressList = new ArrayList<>();
+    public ArrayList<Double> salaryList = new ArrayList<>();
     
     private String database = "jdbc:mysql://localhost:3306/pharmacy_db?user=root&password=12345678&useTimezone=true&serverTimezone=UTC&useSSL=false";
     
