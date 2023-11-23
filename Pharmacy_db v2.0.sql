@@ -269,7 +269,7 @@ INSERT INTO symptom
 			(0015, "High Blood Pressure", "Elevated blood pressure"),
 			(0016, "Acid Reflux", "Backward flow of stomach acid into the esophagus"),
 			(0017, "Depression", "Persistent feelings of sadness and hopelessness"),
-			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood"), ;
+			(0018, "High Cholesterol", "Elevated levels of cholesterol in the blood");
             
 INSERT INTO symptom_and_medicine
 	VALUES 	(0001, 0001, "Relieves heartburn symptoms"),
