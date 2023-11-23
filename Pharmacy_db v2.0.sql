@@ -333,9 +333,9 @@ UPDATE medicine_stock
 SET transactionID = 00002
 WHERE stock_id = 122;
 
-UPDATE medicine_stock
-SET transactionID = 00003
-WHERE stock_id = 111;
+    UPDATE medicine_stock
+    SET transactionID = 00003
+    WHERE stock_id = 111;
 
 
 SELECT *
@@ -371,13 +371,16 @@ SELECT
 FROM (
     -- Get Monthly Sales
     SELECT
-        YEAR(transactionDate) AS report_year,
-        MONTH(transactionDate) AS report_month,
-        SUM(priceBought) AS total_sales,
+        YEAR(t.transactionDate) AS report_year,
+        MONTH(t.transactionDate) AS report_month,
+        SUM(t.priceBought) AS total_sales,
         0 AS total_salary,
         0 AS total_costs
     FROM
-        transactions
+        medicine_stock ms JOIN transactions t
+        ON ms.transactionID = t.transactionID
+    WHERE 
+        transactionID IS NOT NULL
     GROUP BY
         report_year, report_month
 
