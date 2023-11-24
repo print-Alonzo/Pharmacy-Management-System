@@ -45,8 +45,9 @@ public class employees {
     
     public void get_info(int id_no) {
         try {
+            employee_id = 0;
             Connection conn = DriverManager.getConnection(database);
-            String query = "SELECT e.employee_id AS id, e.position_name AS position, e.first_name AS first_name, e.last_name AS last_name, e.contact_no AS contact_no, e.pw AS password, e.address AS address, p.salary AS salary FROM employees e JOIN position p ON e.position_name = p.position_name WHERE e.employee_id = ?";
+            String query = "SELECT e.employee_id AS id, e.position_name AS position, e.first_name AS first_name, e.last_name AS last_name, e.contact_no AS contact_no, e.pw AS password, e.address AS address, p.salary AS salary FROM employees e JOIN positions p ON e.position_name = p.position_name WHERE e.employee_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, id_no);
             ResultSet rst = pstmt.executeQuery();
@@ -189,11 +190,10 @@ public class employees {
     public int updateEmployee(int id, String column, String value){
         try {
             Connection conn = DriverManager.getConnection(database);
-            String update = "UPDATE employees SET ? = ? WHERE employee_id = ?";
+            String update = "UPDATE employees SET " + column + " = ? WHERE employee_id = ?";
             PreparedStatement pst = conn.prepareStatement(update);
-            pst.setString(1, column);
-            pst.setString(2, value);
-            pst.setInt(3, id);
+            pst.setString(1, value);
+            pst.setInt(2, id);
             int count = pst.executeUpdate();
             if(count == 0){
                 return 5;
@@ -211,21 +211,40 @@ public class employees {
     /*
      * filter employee by position.
      */
-    public int filterEmployee(){
+    public int filterEmployeeByPosition(String position){
         try {
+            employee_idList.clear();
+            positionList.clear();
+            first_nameList.clear();
+            last_nameList.clear();
+            contact_noList.clear();
+            addressList.clear();
+            salaryList.clear();
+            System.out.println(position);
             Connection conn = DriverManager.getConnection(database);
-            String sql = "SELECT * FROM employees WHERE position_name = ?";
+            String sql = "SELECT e.employee_id, e.position_name, e.first_name, e.last_name, e.contact_no, e.address, p.salary FROM employees e JOIN positions p ON e.position_name = p.position_name  WHERE e.position_name = ?";
+            System.out.println(sql);
             PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, position);
             ResultSet rst = pst.executeQuery();
-            if(rst == null){
-                first_name = "No employee Found.";
-                return 5;
+            while(rst.next()){
+                employee_id = rst.getInt("employee_id");
+                position = rst.getString("position_name");
+                first_name = rst.getString("first_name");
+                last_name = rst.getString("last_name");
+                contact_no = rst.getLong("contact_no");
+                address = rst.getString("address");
+                salary = rst.getDouble("salary");
+                
+                employee_idList.add(employee_id);
+                positionList.add(position);
+                first_nameList.add(first_name);
+                last_nameList.add(last_name);
+                contact_noList.add(contact_no);
+                addressList.add(address);
+                salaryList.add(salary);
             }
-            else{
-                while(rst.next()){
-
-                }
-            }
+           
             pst.close();
             conn.close();
             return 1;
@@ -241,13 +260,14 @@ public class employees {
      */
     public int searchEmployee(String firstName, String lastName){
         try {
+            
             firstName = firstName.toLowerCase();
             lastName = lastName.toLowerCase();
             Connection conn = DriverManager.getConnection(database);
-            String search = "SELECT * FROM employees WHERE LOWER(employees.first_name) = ? AND LOWER(employees.last_name) = ?";
+            String search = "SELECT e.employee_id, e.position_name, e.first_name, e.last_name, e.contact_no, e.address, p.salary  FROM employees e JOIN positions p WHERE LOWER(e.first_name) = ? AND LOWER(e.last_name) = ?";
             PreparedStatement pst = conn.prepareStatement(search);
             pst.setString(1, firstName);
-            pst.setString(2, firstName);
+            pst.setString(2, lastName);
             ResultSet rst = pst.executeQuery();
             
             if (rst == null){
@@ -257,17 +277,33 @@ public class employees {
             else{
                 while(rst.next()){
                         employee_id = rst.getInt("employee_id");
-                        position = rst.getString("position");
+                        position = rst.getString("position_name");
                         first_name = rst.getString("first_name");
                         last_name = rst.getString("last_name");
                         contact_no = rst.getLong("contact_no"); 
-                        password = rst.getString("pw");
                         address = rst.getString("address");
                         salary = rst.getDouble("salary");  
                 }
             }
             pst.close();
             conn.close();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    
+    public int getPositions(){
+        try {
+            positionList.clear();
+            Connection conn = DriverManager.getConnection(database);
+            String get = "SELECT DISTINCT position_name FROM employees ";
+            PreparedStatement ps = conn.prepareStatement(get);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                positionList.add(rs.getString("position_name"));
+            }
             return 1;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -281,7 +317,7 @@ public class employees {
     public int addEmployee(){
         try {
             Connection conn = DriverManager.getConnection(database);
-            String add = "INSERT INTO EMPLOYEES (position_name, first_name, last_name, contact_no, pw, address) "
+            String add = "INSERT INTO employees (position_name, first_name, last_name, contact_no, pw, address) "
                             +"VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = conn.prepareStatement(add);
             pst.setString(1, position);
@@ -300,8 +336,27 @@ public class employees {
         }
     }
     
+    public int getALLPositions(){
+        try{
+            positionList.clear();
+            Connection conn = DriverManager.getConnection(database);
+            String get = "SELECT position_name FROM positions";
+            PreparedStatement pst = conn.prepareStatement(get);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                positionList.add(rs.getString("position_name"));
+            }
+            return 1;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    
     public static void main(String[] args){
         employees e = new employees();
-        System.out.println(e.check_password(1, "12345"));
+        e.get_info(5);
+        System.out.println(e.address);
+        e.deleteEmployee(5);
     }
 }
