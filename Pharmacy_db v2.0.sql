@@ -235,7 +235,7 @@ INSERT INTO medicine_info (medicine_id, generic_name, brand_name, volume_ml, dos
 			(0013, "Simethicone", "GasX", NULL, 125, FALSE, "Antacids", 15, "Relief from gas and bloating", 1),
             (0014, "Amoxicillin", "Amoxil", NULL, 500, TRUE, "Antibiotics", 120, "Common antibiotic for bacterial infections", 2),
 			(0015, "Lisinopril", "Zestril", NULL, 10, TRUE, "Hormones", 18, "For high blood pressure", 1),
-			(0016, "Omeprazole", "Prilosec", 20, NULL, TRUE, "Antacids", 25, "Prescription-strength acid reducer", 1),
+			(0016, "Omeprazole", "Prilosec", 20, NULL, TRUE, "Antacids", 25, "Prescription-strength acid reducer",1),
 			(0017, "Sertraline", "Zoloft", NULL, 50, TRUE, "Psychotropic Medications", 30, "Antidepressant", 4),
 			(0018, "Rosuvastatin", "Crestor", NULL, 10, TRUE, "Hormones", 40, "For managing cholesterol levels", 2);
 
@@ -297,8 +297,7 @@ INSERT INTO symptom_and_medicine
 			(0013, 0011, "Relieves heartburn symptoms caused by gas"),
 			(0014, 0003, "Effective against bacterial skin infections"),
 			(0015, 0010, "Supports blood pressure management with sleep aid"),
-			(0017, 0007, "Supports mental health by addressing allergy-related symptoms"),
-			(0018, 0005, "Supports cholesterol management with anti-inflammatory properties");
+			(0017, 0007, "Supports mental health by addressing allergy-related symptoms");
             
 INSERT INTO positions
 	VALUES ("Pharmacist", 30000),
@@ -447,66 +446,69 @@ ORDER BY year_report, month_report;
 -- Core Data Records (add, search and view, filter and listing, update, delete)  --
 
 
--- Prescription and Over-the-counter Medicines 
--- Add medecine type
+-- Prescription and Over-the-counter Medicines --
+-- Add medecine type ✅ 
 INSERT INTO medicine_info (generic_name, brand_name, volume_ml, dosage_mg, isPrescription, category, sellingPrice, description, supplierID)
     VALUES ('Paracetamol', 'Biogesic', NULL, 500, FALSE, 'Pain Reliever', 3, 'General Pain Reliever Drug', 1);  
 
--- Search and View
-SELECT * FROM medicine_info WHERE medecine_id = 1;
+-- Search and View ✅ (Change the column and value to look for)
+SELECT * FROM medicine_info WHERE medicine_id = 1;
 SELECT * FROM medicine_info WHERE brand_name = 'Biogesic';
 
--- Filter and Listing
+-- Filter and Listing ✅ (Just change the category and the value)
 SELECT * FROM medicine_info WHERE category = 'Pain Reliever';
 
--- Update
+-- Update ✅ (change column to change)
 UPDATE medicine_info
 SET brand_name = 'Biogesic Extra Strength'
-WHERE medecine_id = 1;
+WHERE medicine_id = 1;
 
--- Delete IDK HOW
+-- TODO: Delete medicine_info
+-- TODO: Should I do CRUD for medine_stock
 
 -- Employees
--- Add
+-- Add ✅
 INSERT INTO employees (position_name, first_name, last_name, contact_no, pw, address)
-    VALUES ('Cashier', 'Jose', 'Lopez', '639185551234', 'IloveMyChildren', '123 Main St, Mandaluyong');
+    VALUES ('Cashier', 'Juana', 'Lopez', '639185551234dasd', 'Idontlikechikdren', '123 Main St, Mandaluyong');
 
--- Search and View
+-- Search and View ✅
 SELECT * FROM employees WHERE employee_id = 2;
 
--- Filter and Listing
+-- Filter and Listing ✅ (change the column and value to look for)
 SELECT * FROM employees WHERE position_name = 'Cashier';
 
--- Update
+-- Update ✅ (change column)
 UPDATE employees
 SET pw = 'IloveMyWife'
 WHERE employee_id = 2;
 
--- Delete
-DELETE FROM employees WHERE employee_id = 2;
+-- Delete ✅
+DELETE FROM employees WHERE employee_id = 5;
 
 UPDATE payout
 SET employee_id = NULL
 WHERE employee_id = 2;
 
+-- TODO : Add payout and possitions?
 
 -- Suppliers --
--- Add
+-- Add ✅
 INSERT INTO supplier_info (supp_name, supp_description, address, contact_number)
     VALUES ('PharManila Inc.', 'Unilab Distributor', '1002, Espana Blvd, Sampaloc, Manila', 639172180341);
 
--- Search and View
+-- Search and View ✅
 SELECT * FROM supplier_info WHERE supplierID = 1;
 
--- Filter and Listing
-SELECT * FROM supplier_info WHERE address LIKE '%Manila%';
+-- Filter and Listing ✅
+SELECT * FROM supplier_info WHERE address LIKE '%Manila';
+SELECT * FROM supplier_info WHERE supp_name LIKE '%Inc.';
 
--- Update
+-- Update ✅ (change column)
 UPDATE supplier_info
 SET supp_description = 'Unilab Distributor for the Philippines'
 WHERE supplierID = 5;
 
--- Delete
+-- Delete ✅
 DELETE FROM supplier_info WHERE supplierID = 5;
 
 UPDATE orders 
@@ -515,22 +517,41 @@ WHERE supplierID = 5;
 
 
 -- symptoms --
--- Add
+-- Add ✅
 INSERT INTO symptom (symptom_name, symptom_description)
     VALUES ('Heartburn', 'Burning sensation in the chest');
 
--- Search and View
+-- Search and View ✅
 SELECT * FROM symptom WHERE symptom_id = 1;
 
--- Filter and Listing
-SELECT * FROM symptom WHERE symptom_name = 'Heartburn';
+-- Filter and Listing ✅
+SELECT * FROM symptom WHERE LOWER(symptom_name) LIKE 'heart%';
 
--- Update
+-- Update ✅
 UPDATE symptom
 SET symptom_description = 'Burning sensation in the chest and throat'
 WHERE symptom_id = 1;
 
--- Delete
+-- Delete ✅
 DELETE FROM symptom WHERE symptom_id = 1;
 DELETE FROM symptom_and_medicine WHERE symptom_id = 1;
 
+
+-- symptom_and_medicine --
+-- Add ✅
+INSERT INTO symptom_and_medicine (symptom_id, medicine_id, relation_description)
+    VALUES (0002, 0005, "I have no idea how it works");
+
+-- Search and View ✅
+SELECT * FROM symptom_and_medicine WHERE symptom_id = 0002 AND medicine_id = 0005;
+
+-- Filter and Listing ✅
+SELECT * FROM symptom_and_medicine WHERE symptom_id = 0002;
+
+-- Update ✅
+UPDATE symptom_and_medicine
+SET relation_description = "Supports cholesterol management with anti-inflammatory properties and anti-oxidants"
+WHERE symptom_id = 0002 AND medicine_id = 0005;
+
+-- Delete ✅
+DELETE FROM symptom_and_medicine WHERE symptom_id = 0018 AND medicine_id = 0005;
