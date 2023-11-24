@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS medicine_info (
 DROP TABLE IF EXISTS orders;
 CREATE TABLE IF NOT EXISTS orders (
 	orderID				INT(5) NOT NULL AUTO_INCREMENT,
-    supplierID			INT(5) NOT NULL,
+    supplierID			INT(5),
     date_ordered		DATE NOT NULL,
     medicineID			INT(5) NOT NULL,
     quantity			INT(5) NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS symptom_and_medicine (
 DROP TABLE IF EXISTS payout;
 CREATE TABLE IF NOT EXISTS payout (
     payout_id       INT(5) NOT NULL AUTO_INCREMENT,
-    employee_id     INT(5) NOT NULL,
+    employee_id     INT(5),
     date_given      DATE NOT NULL,
     payout_amount   FLOAT NOT NULL,
     position_name   VARCHAR(30),
@@ -465,4 +465,72 @@ SET brand_name = 'Biogesic Extra Strength'
 WHERE medecine_id = 1;
 
 -- Delete IDK HOW
+
+-- Employees
+-- Add
+INSERT INTO employees (position_name, first_name, last_name, contact_no, pw, address)
+    VALUES ('Cashier', 'Jose', 'Lopez', '639185551234', 'IloveMyChildren', '123 Main St, Mandaluyong');
+
+-- Search and View
+SELECT * FROM employees WHERE employee_id = 2;
+
+-- Filter and Listing
+SELECT * FROM employees WHERE position_name = 'Cashier';
+
+-- Update
+UPDATE employees
+SET pw = 'IloveMyWife'
+WHERE employee_id = 2;
+
+-- Delete
+DELETE FROM employees WHERE employee_id = 2;
+
+UPDATE payout
+SET employee_id = NULL
+WHERE employee_id = 2;
+
+
+-- Suppliers --
+-- Add
+INSERT INTO supplier_info (supp_name, supp_description, address, contact_number)
+    VALUES ('PharManila Inc.', 'Unilab Distributor', '1002, Espana Blvd, Sampaloc, Manila', 639172180341);
+
+-- Search and View
+SELECT * FROM supplier_info WHERE supplierID = 1;
+
+-- Filter and Listing
+SELECT * FROM supplier_info WHERE address LIKE '%Manila%';
+
+-- Update
+UPDATE supplier_info
+SET supp_description = 'Unilab Distributor for the Philippines'
+WHERE supplierID = 5;
+
+-- Delete
+DELETE FROM supplier_info WHERE supplierID = 5;
+
+UPDATE orders 
+SET supplierID = NULL
+WHERE supplierID = 5;
+
+
+-- symptoms --
+-- Add
+INSERT INTO symptom (symptom_name, symptom_description)
+    VALUES ('Heartburn', 'Burning sensation in the chest');
+
+-- Search and View
+SELECT * FROM symptom WHERE symptom_id = 1;
+
+-- Filter and Listing
+SELECT * FROM symptom WHERE symptom_name = 'Heartburn';
+
+-- Update
+UPDATE symptom
+SET symptom_description = 'Burning sensation in the chest and throat'
+WHERE symptom_id = 1;
+
+-- Delete
+DELETE FROM symptom WHERE symptom_id = 1;
+DELETE FROM symptom_and_medicine WHERE symptom_id = 1;
 
