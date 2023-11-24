@@ -380,7 +380,7 @@ FROM (
         medicine_stock ms JOIN transactions t
         ON ms.transactionID = t.transactionID
     WHERE 
-        transactionID IS NOT NULL
+        ms.transactionID IS NOT NULL
     GROUP BY
         report_year, report_month
 
@@ -534,8 +534,8 @@ SET symptom_description = 'Burning sensation in the chest and throat'
 WHERE symptom_id = 1;
 
 -- Delete ✅
-DELETE FROM symptom WHERE symptom_id = 1;
-DELETE FROM symptom_and_medicine WHERE symptom_id = 1;
+-- DELETE FROM symptom WHERE symptom_id = 1;
+-- DELETE FROM symptom_and_medicine WHERE symptom_id = 1;
 
 
 -- symptom_and_medicine --
@@ -555,4 +555,4 @@ SET relation_description = "Supports cholesterol management with anti-inflammato
 WHERE symptom_id = 0002 AND medicine_id = 0005;
 
 -- Delete ✅
-DELETE FROM symptom_and_medicine WHERE symptom_id = 0018 AND medicine_id = 0005;
+-- DELETE FROM symptom_and_medicine WHERE symptom_id = 0018 AND medicine_id = 0005;
