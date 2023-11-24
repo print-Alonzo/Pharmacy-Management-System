@@ -10,7 +10,7 @@ USE pharmacy_db;
 -- -----------------------------------------------------------
 DROP TABLE IF EXISTS supplier_info;
 CREATE TABLE IF NOT EXISTS supplier_info (
-	supplierID			INT(5) NOT NULL,
+	supplierID			INT(5) NOT NULL AUTO_INCREMENT,
     supp_name			VARCHAR(40) NOT NULL,
     supp_description	VARCHAR(240) NOT NULL,
     address				VARCHAR(100) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS supplier_info (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS medicine_info;
 CREATE TABLE IF NOT EXISTS medicine_info (
-  medicine_id			INT(5)	NOT NULL,
+  medicine_id			INT(5) NOT NULL AUTO_INCREMENT,
   generic_name			VARCHAR(70)	NOT NULL,
   brand_name			VARCHAR(70)	NOT NULL,
   volume_ml				FLOAT,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS positions (
 -- ------------------------------------------------------
 DROP TABLE IF EXISTS employees;
 CREATE TABLE IF NOT EXISTS employees (
-	employee_id		INT(5) NOT NULL,
+	employee_id		INT(5) NOT NULL AUTO_INCREMENT,
     position_name	VARCHAR(30) NOT NULL,
     first_name		VARCHAR(20) NOT NULL,
     last_name		VARCHAR(20) NOT NULL,
@@ -102,8 +102,8 @@ DROP TABLE IF EXISTS transactions;
 CREATE TABLE IF NOT EXISTS transactions (
     transactionID       INT(5) NOT NULL AUTO_INCREMENT,
     priceBought			FLOAT NOT NULL,
-    cashier             INT(5),
-    pharmacist          INT(5),
+    cashier             INT(5) NOT NULL,
+    pharmacist          INT(5) NOT NULL,
     transactionDate     DATETIME,
     
     PRIMARY KEY (transactionID),
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS medicine_stock;
 CREATE TABLE IF NOT EXISTS medicine_stock (
-  stock_id		BIGINT(12) NOT NULL,
+  stock_id		BIGINT(12) NOT NULL AUTO_INCREMENT,
   medicine_id	INT(5) NOT NULL,
   dateReceived	DATE NOT NULL,
   dateExpire	DATE NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS medicine_stock (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS symptom;
 CREATE TABLE IF NOT EXISTS symptom (
-	symptom_id				INT(5) NOT NULL,
+	symptom_id				INT(5) NOT NULL AUTO_INCREMENT,
     symptom_name			VARCHAR(30) NOT NULL,
     symptom_description		VARCHAR(240) NOT NULL,
     
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS symptom_and_medicine (
 -- ----------------------------------------------
 DROP TABLE IF EXISTS payout;
 CREATE TABLE IF NOT EXISTS payout (
-    payout_id       INT(5) NOT NULL,
+    payout_id       INT(5) NOT NULL AUTO_INCREMENT,
     employee_id     INT(5) NOT NULL,
     date_given      DATE NOT NULL,
     payout_amount   FLOAT NOT NULL,
@@ -333,9 +333,9 @@ UPDATE medicine_stock
 SET transactionID = 00002
 WHERE stock_id = 122;
 
-    UPDATE medicine_stock
-    SET transactionID = 00003
-    WHERE stock_id = 111;
+UPDATE medicine_stock
+SET transactionID = 00003
+WHERE stock_id = 111;
 
 
 SELECT *
@@ -442,3 +442,27 @@ FROM medicine_stock s LEFT JOIN medicine_info i
 WHERE s.transactionID IS NULL
 GROUP BY s.medicine_id, year_report, month_report
 ORDER BY year_report, month_report;
+
+
+-- Core Data Records (add, search and view, filter and listing, update, delete)  --
+
+
+-- Prescription and Over-the-counter Medicines 
+-- Add medecine type
+INSERT INTO medicine_info (generic_name, brand_name, volume_ml, dosage_mg, isPrescription, category, sellingPrice, description, supplierID)
+    VALUES ('Paracetamol', 'Biogesic', NULL, 500, FALSE, 'Pain Reliever', 3, 'General Pain Reliever Drug', 1);  
+
+-- Search and View
+SELECT * FROM medicine_info WHERE medecine_id = 1;
+SELECT * FROM medicine_info WHERE brand_name = 'Biogesic';
+
+-- Filter and Listing
+SELECT * FROM medicine_info WHERE category = 'Pain Reliever';
+
+-- Update
+UPDATE medicine_info
+SET brand_name = 'Biogesic Extra Strength'
+WHERE medecine_id = 1;
+
+-- Delete IDK HOW
+
