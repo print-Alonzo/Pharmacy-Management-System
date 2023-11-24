@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     transactionDate     DATETIME,
     
     PRIMARY KEY (transactionID),
-    FOREIGN KEY (cashier) REFERENCES employees(employee_id),
-    FOREIGN KEY (pharmacist) REFERENCES employees(employee_id)
+    FOREIGN KEY (cashier) REFERENCES employees(employee_id) ON DELETE SET NULL,
+    FOREIGN KEY (pharmacist) REFERENCES employees(employee_id) ON DELETE SET NULL
 );
 
 -- -----------------------------------------------------
@@ -171,7 +171,8 @@ CREATE TABLE IF NOT EXISTS payout (
 
     PRIMARY KEY(payout_id),
     FOREIGN KEY(employee_id)
-        REFERENCES employees(employee_id),
+        REFERENCES employees(employee_id) ON DELETE SET NULL,
+
     FOREIGN KEY(position_name)
         REFERENCES  positions(position_name)
 
@@ -469,7 +470,7 @@ WHERE medicine_id = 1;
 -- Employees
 -- Add ✅
 INSERT INTO employees (position_name, first_name, last_name, contact_no, pw, address)
-    VALUES ('Cashier', 'Juana', 'Lopez', '639185551234dasd', 'Idontlikechikdren', '123 Main St, Mandaluyong');
+    VALUES ('Cashier', 'Juana', 'Lopez', '639185551234', 'Idontlikechikdren', '123 Main St, Mandaluyong');
 
 -- Search and View ✅
 SELECT * FROM employees WHERE employee_id = 2;
