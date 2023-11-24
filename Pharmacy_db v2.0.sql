@@ -102,8 +102,8 @@ DROP TABLE IF EXISTS transactions;
 CREATE TABLE IF NOT EXISTS transactions (
     transactionID       INT(5) NOT NULL AUTO_INCREMENT,
     priceBought			FLOAT NOT NULL,
-    cashier             INT(5) NOT NULL,
-    pharmacist          INT(5) NOT NULL,
+    cashier             INT(5) ,
+    pharmacist          INT(5) ,
     transactionDate     DATETIME,
     
     PRIMARY KEY (transactionID),
@@ -486,9 +486,9 @@ WHERE employee_id = 2;
 -- Delete ✅
 DELETE FROM employees WHERE employee_id = 5;
 
-UPDATE payout
-SET employee_id = NULL
-WHERE employee_id = 2;
+-- UPDATE payout
+-- SET employee_id = NULL
+-- WHERE employee_id = 2;
 
 -- TODO : Add payout and possitions?
 
