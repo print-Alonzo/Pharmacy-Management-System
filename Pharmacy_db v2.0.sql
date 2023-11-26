@@ -54,6 +54,9 @@ CREATE TABLE IF NOT EXISTS orders (
     expiryDate			DATE NOT NULL,
     priceSold			FLOAT NOT NULL,
     order_status		ENUM("ordered", "sent"),
+    -- ordered is 
+
+
     
     PRIMARY KEY	(orderID),
     FOREIGN KEY (supplierID)
@@ -117,7 +120,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 DROP TABLE IF EXISTS medicine_stock;
 CREATE TABLE IF NOT EXISTS medicine_stock (
   stock_id		BIGINT(12) NOT NULL AUTO_INCREMENT,
-  medicine_id	INT(5) NOT NULL,
+  medicine_id	INT(5),
   dateReceived	DATE NOT NULL,
   dateExpire	DATE NOT NULL,
   priceBought	FLOAT NOT NULL,
@@ -513,6 +516,10 @@ WHERE supplierID = 5;
 DELETE FROM supplier_info WHERE supplierID = 5;
 
 UPDATE orders 
+SET supplierID = NULL
+WHERE supplierID = 5;
+
+UPDATE medicine_info
 SET supplierID = NULL
 WHERE supplierID = 5;
 
