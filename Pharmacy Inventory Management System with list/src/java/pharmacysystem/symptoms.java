@@ -9,12 +9,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-/**
- *
- * @author ccslearner
- */
+/** 
+ *  
+ * @author ccslearner 
+ */ 
 public class symptoms {
     public int symptom_id;
     public String symptom_name;
@@ -101,10 +102,90 @@ public class symptoms {
             System.out.println(e.getMessage());
         }
     }
+
+    private boolean isValidSymptomInput(String name, String description) {
+        return name != null && !name.trim().isEmpty() && description != null && !description.trim().isEmpty();
+    }
+
+    public boolean addSymptom(String symptomName, String symptomDescription) {
+        if (!isValidSymptomInput(symptomName, symptomDescription)) {
+            System.out.println("Invalid symptom data provided.");
+            return false;
+        }
+
+        try (Connection conn = DriverManager.getConnection(database)) {
+            String query = "INSERT INTO symptom (symptom_name, symptom_description) VALUES (?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, symptomName);
+                pstmt.setString(2, symptomDescription);
+                int affectedRows = pstmt.executeUpdate();
+                if (affectedRows > 0) {
+                    System.out.println("Symptom successfully added.");
+                    return true;
+                } else {
+                    System.out.println("Symptom could not be added.");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public ArrayList<String> filterSymptoms(String searchQuery) {
+        ArrayList<String> symptoms = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(database)) {
+            String query = "SELECT symptom_name, symptom_description FROM symptom WHERE symptom_name LIKE ? OR symptom_description LIKE ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, "%" + searchQuery + "%");
+                pstmt.setString(2, "%" + searchQuery + "%");
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        symptoms.add(rs.getString("symptom_name") + ": " + rs.getString("symptom_description"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while filtering symptoms: " + e.getMessage());
+        }
+        return symptoms;
+    }
+
+    public ArrayList<String> listSymptoms() {
+        ArrayList<String> symptoms = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(database)) {
+            String query = "SELECT symptom_name FROM symptom";
+            try (PreparedStatement pstmt = conn.prepareStatement(query);
+                 ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    symptoms.add(rs.getString("symptom_name"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while listing symptoms: " + e.getMessage());
+        }
+        return symptoms;
+    }
     
     public static void main(String[] args){
         symptoms med = new symptoms();
         med.get_all_symptom_names();
         System.out.println(med.symptom_nameList);
-    }
+    
+        // Setting up a symptom to add
+        String symptomName = "Headache";
+        String symptomDescription = "Pain in the head or upper neck";
+        boolean isAdded = med.addSymptom(symptomName, symptomDescription);
+        System.out.println("Symptom added: " + isAdded);
+    
+        // Setting up a filter criteria
+        String filterCriteria = "head";
+        ArrayList<String> filteredSymptoms = med.filterSymptoms(filterCriteria);
+        System.out.println("Filtered Symptoms: " + filteredSymptoms);
+    
+        // Listing all symptoms
+        ArrayList<String> allSymptoms = med.listSymptoms();  
+        System.out.println("All Symptoms: " + allSymptoms);
+    }    
 }
